@@ -1,8 +1,8 @@
 #!/bin/bash
 
 yes | deck reset
+bash -c 'sleep 10; ./check_lab.sh' &
 
-sleep 5 &
 #
 # # Create a service
 # curl -i -X POST http://localhost:8001/services \
@@ -39,6 +39,3 @@ sleep 5 &
 # # List all Services & Plugins
 # curl -X GET http://localhost:8001/services | jq
 # curl -X GET http://localhost:8001/plugins | jq
-
-
-./check_lab.sh

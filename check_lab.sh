@@ -4,6 +4,8 @@ passcounter=0
 failcounter=0
 testcounter=0
 
+deck dump
+
 # Check services
 # SERVICE=$(curl -s -X GET http://localhost:8001/services | jq '.data[].name' | xargs)
 testcounter=$((testcounter+1))
@@ -54,3 +56,6 @@ fi
 
 percent=$(($passcounter*100/$testcounter))
 echo $testcounter tests run, $passcounter passed and $failcounter failed. $percent% pass rate.
+
+echo Resetting Kong Gateway
+yes | deck reset
