@@ -6,8 +6,7 @@ testcounter=0
 
 deck dump
 
-# Check services
-# SERVICE=$(curl -s -X GET http://localhost:8001/services | jq '.data[].name' | xargs)
+# Check service
 testcounter=$((testcounter+1))
 if [[ $(curl -s -X GET http://localhost:8001/services | jq '.data[].name' | xargs) = mocking_service ]]; then
   passcounter=$((passcounter+1))
@@ -16,7 +15,7 @@ else
   echo Service not configured
 fi
 
-
+# Check route
 testcounter=$((testcounter+1))
 if [[ $(curl -s -X GET http://localhost:8001/routes | jq '.data[].name' | xargs) = mocking ]]; then
   passcounter=$((passcounter+1))
@@ -25,8 +24,7 @@ else
   echo Route not configured
 fi
 
-# Check consumers
-
+# Check consumer
 testcounter=$((testcounter+1))
 if [[ $(curl -s -X GET http://localhost:8001/consumers | jq '.data[].username' | xargs) = Jane ]]; then
   passcounter=$((passcounter+1))
@@ -50,8 +48,8 @@ testcounter=$((testcounter+1))
 if [[ $(curl -s -I -X GET http://localhost:8000/mock/request | head -n 1 | awk '{print $2}') = 429 ]]; then
   passcounter=$((passcounter+1))
 else
-  echo Plugin not working as planned
   failcounter=$((failcounter+1))
+  echo Plugin not working as planned
 fi
 
 percent=$(($passcounter*100/$testcounter))
