@@ -28,12 +28,12 @@ curl -i -X POST http://localhost:8001/plugins \
   --data config.policy=local
 
 
-# Validate Rate Limiting - run the following 6 times and you should see 'API rate limit exceeded'
-# curl -i -X GET http://localhost:8000/mock/request
-for i in {1..6}; do curl -s -i -X GET http://localhost:8000/mock/request| head -n 1; done
-curl -s -I -X GET http://localhost:8000/mock/request | head -n 1
-
-
-# List all Services & Plugins
-curl -X GET http://localhost:8001/services | jq
-curl -X GET http://localhost:8001/plugins | jq
+# # Validate Rate Limiting - run the following 6 times and you should see 'API rate limit exceeded'
+# # curl -i -X GET http://localhost:8000/mock/request
+# for i in {1..6}; do curl -s -i -X GET http://localhost:8000/mock/request| head -n 1; done
+# curl -s -I -X GET http://localhost:8000/mock/request | head -n 1
+#
+#
+# # List all Services & Plugins
+# curl -X GET http://localhost:8001/services | jq
+# curl -X GET http://localhost:8001/plugins | jq
