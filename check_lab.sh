@@ -58,4 +58,4 @@ percent=$(($passcounter*100/$testcounter))
 echo $testcounter tests run, $passcounter passed and $failcounter failed. $percent% pass rate.
 
 echo Resetting Kong Gateway
-yes | deck reset
+yes | deck reset > /dev/null
