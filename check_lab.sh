@@ -4,8 +4,6 @@ passcounter=0
 failcounter=0
 testcounter=0
 
-deck dump
-
 # Check service
 testcounter=$((testcounter+1))
 if [[ $(curl -s -X GET http://localhost:8001/services | jq '.data[].name' | xargs) = mocking_service ]]; then
@@ -55,5 +53,18 @@ fi
 percent=$(($passcounter*100/$testcounter))
 echo $testcounter tests run, $passcounter passed and $failcounter failed. $percent% pass rate.
 
+
+echo Saving Kong Gateway Configuration
+deck dump
+
 echo Resetting Kong Gateway
 yes | deck reset > /dev/null
+
+LABFILE=$AVL_STUDENT_ID-$(date +"%Y%m%d%H%M")
+
+env > $LABFILE-env.out
+tar -czvf $LABFILE.tz $LABFILE-env.out kong.yaml
+
+mail -s 'Kong Konnect Foundations - Lab results' $AVL_STUDENT_ID -a $LABFILE.tz << EOF
+$testcounter tests run, $passcounter passed and $failcounter failed. $percent% pass rate.
+EOF
