@@ -1,5 +1,6 @@
-import requests
+#!//usr/bin/python3
 
+import requests
 
 params = {'name':'mocking_service','url':'http://mockbin.org'}
 r = requests.post('http://localhost:8001/services',data = params)
