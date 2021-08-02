@@ -7,7 +7,6 @@ import subprocess
 import tarfile
 from datetime import datetime
 
-# now = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
 now = datetime.now().strftime("%Y-%m-%d_%I-%M-%S-%p")
 
 passcounter=0
@@ -91,7 +90,7 @@ print("Number of tests: " + str(testcounter))
 print("Number of Fails: " + str(failcounter))
 print("Number of Passes: " + str(passcounter))
 
-percent = round((passcounter) * 100) / testcounter
+percent = round(((passcounter) * 100) / testcounter)
 print("Score: " + str(percent)  + "%")
 
 studentemail = os.environ["AVL_STUDENT_ID"]
@@ -108,10 +107,7 @@ for k, v in os.environ.items():
     file.close
 
 studentname = studentemail.split("@")[0]
-# studentname = studentname.split(".")[0]
-
 tarfilename = "labfiles_" + studentname + "_" + str(now) + ".tar.gz"
-
 tf = tarfile.open(tarfilename, mode="w:gz")
 tf.add(kongfile)
 tf.add(envfile)

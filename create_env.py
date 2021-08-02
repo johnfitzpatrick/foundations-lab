@@ -18,6 +18,3 @@ print(r.status_code)
 params = {'name':'rate-limiting','config.minute':5,'config.policy':'local'}
 r = requests.post('http://localhost:8001/plugins',data = params)
 print(r.status_code)
-
-
-print(r.status_code)
