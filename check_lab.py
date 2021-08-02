@@ -94,11 +94,11 @@ percent = round(((passcounter) * 100) / testcounter)
 print("Score: " + str(percent)  + "%")
 
 studentemail = os.environ["AVL_STUDENT_ID"]
-kongfile = "kong_" + studentemail + "_" + str(now) + "_kong.yaml"
-envfile = "env_" + studentemail + "_" + str(now) + "_env.out"
 
+kongfile = "kong_" + studentemail + "_" + str(now) + "_kong.yaml"
 subprocess.call(['deck', 'dump', '-o', kongfile])
 
+envfile = "env_" + studentemail + "_" + str(now) + "_env.out"
 for k, v in os.environ.items():
     # print(f'{k}={v}')
     file = open(envfile, "a")
