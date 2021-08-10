@@ -8,6 +8,8 @@ import tarfile
 from datetime import datetime
 
 now = datetime.now().strftime("%Y-%m-%d_%I-%M-%S-%p")
+studentemail = os.environ["AVL_STUDENT_ID"]
+resultsfile = "results_" + studentemail + "_" + str(now) + "_results.out"
 
 passcounter=0
 failcounter=0
@@ -22,9 +24,15 @@ try:
     else:
         failcounter +=1
         print("'mocking_service' not configured")
+        rf = open(resultsfile, "a")
+        rf.write("'mocking_service' not configured\n")
+        rf.close()
 except:
     failcounter +=1
     print("Service not configured")
+    rf = open(resultsfile, "a")
+    rf.write("Service not configured\n")
+    rf.close()
 
 testcounter +=1
 url = "http://localhost:8001/routes"
@@ -35,9 +43,15 @@ try:
     else:
         failcounter +=1
         print("Route '/mock' not configured")
+        rf = open(resultsfile, "a")
+        rf.write("Route '/mock' not configured\n")
+        rf.close()
 except:
     failcounter +=1
     print("Route not configured")
+    rf = open(resultsfile, "a")
+    rf.write("Route not configured\n")
+    rf.close()
 
 testcounter +=1
 url = "http://localhost:8001/consumers"
@@ -48,9 +62,15 @@ try:
     else:
         failcounter +=1
         print("Consumer 'Jane' not configured")
+        rf = open(resultsfile, "a")
+        rf.write("Consumer 'Jane' not configured\n")
+        rf.close()
 except:
     failcounter +=1
     print("Consumer not configured")
+    rf = open(resultsfile, "a")
+    rf.write("Consumer not configured\n")
+    rf.close()
 
 testcounter +=1
 url = "http://localhost:8001/plugins"
@@ -61,9 +81,15 @@ try:
     else:
         failcounter +=1
         print("Plugin 'rate-limiting' not configured")
+        rf = open(resultsfile, "a")
+        rf.write("Plugin 'rate-limiting' not configured\n")
+        rf.close()
 except:
     failcounter +=1
     print("Plugin not configured")
+    rf = open(resultsfile, "a")
+    rf.write("Plugin not configured\n")
+    rf.close()
 
 testcounter +=1
 url = "http://localhost:8000/mock/request"
@@ -73,6 +99,9 @@ if response.status_code == 200:
 else:
     failcounter +=1
     print("Proxy request failed")
+    rf = open(resultsfile, "a")
+    rf.write("Proxy request failed\n")
+    rf.close()
 
 testcounter +=1
 url = "http://localhost:8000/mock/request"
@@ -85,15 +114,23 @@ if response.status_code == 429:
 else:
     failcounter +=1
     print("Plugin not configured correctly")
+    rf = open(resultsfile, "a")
+    rf.write("Plugin not configured correctly\n")
+    rf.close()
 
 print("Number of tests: " + str(testcounter))
 print("Number of Fails: " + str(failcounter))
 print("Number of Passes: " + str(passcounter))
-
 percent = round(((passcounter) * 100) / testcounter)
 print("Score: " + str(percent)  + "%")
 
-studentemail = os.environ["AVL_STUDENT_ID"]
+resultsfile = "results_" + studentemail + "_" + str(now) + "_results.out"
+rf = open(resultsfile, "a")
+rf.write("Number of tests: " + str(testcounter) + '\n')
+rf.write("Number of Fails: " + str(failcounter) + '\n')
+rf.write("Number of Passes: " + str(passcounter) + '\n')
+rf.write("Score: " + str(percent)  + "%")
+rf.close()
 
 kongfile = "kong_" + studentemail + "_" + str(now) + "_kong.yaml"
 subprocess.call(['deck', 'dump', '-o', kongfile])
@@ -111,6 +148,7 @@ tarfilename = "labfiles_" + studentname + "_" + str(now) + ".tar.gz"
 tf = tarfile.open(tarfilename, mode="w:gz")
 tf.add(kongfile)
 tf.add(envfile)
+tf.add(resultsfile)
 tf.close()
 
 
